@@ -21,3 +21,5 @@ Please use the following table to grade the student's assignment:
 |      7      |                 |                     |               |
 |      8      |                 |                     |               |
 |      9      |                 |                     |               |
+
+Assignment 2: https://github.com/brt1143/Movement_tracking.git
