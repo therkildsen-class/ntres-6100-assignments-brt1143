@@ -60,7 +60,21 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
 
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) +
-  facet_wrap(~ class) + # create plots for a particular variable, (here it is class)
+  facet_wrap(~ class) + # create plots for a particular variable, (here it is `class`)
   theme_bw() # apply a new background theme for a particlar style 
+
+ggplot(data=mpg, mapping = aes(x=displ, y=hwy)) +
+  geom_point(mapping=aes (color=class, size=cyl), shape=1) +
+  geom_smooth() +
+  facet_wrap(~year, nrow=2) +
+  theme_minimal()
+
+## use ggsave to automatically export most recently run ggplot to specified folder
+
+ggsave(filename = "plots/hwy_vs_displ.pdf", width = 8, height = 4)
+  # the order to the width or height function doesn't matter as long as the name is specified 
+
+
+
 
   
