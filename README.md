@@ -12,7 +12,7 @@ Please use the following table to grade the student's assignment:
 
 | Assignment# | Fully completed | Partially completed | Not completed |
 |:-----------:|:---------------:|:-------------------:|:-------------:|
-|      1      |        X         |                     |               |
+|      1      |        X        |                     |               |
 |      2      |        X        |                     |               |
 |      3      |                 |                     |               |
 |      4      |                 |                     |               |
@@ -22,4 +22,6 @@ Please use the following table to grade the student's assignment:
 |      8      |                 |                     |               |
 |      9      |                 |                     |               |
 
-Assignment 2: https://github.com/brt1143/Movement_tracking.git
+Assignment 2: <https://github.com/brt1143/Movement_tracking.git>
+
+Assignment 3: <https://brt1143.github.io/assignment-3-brt43/>
