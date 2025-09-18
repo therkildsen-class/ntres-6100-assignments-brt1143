@@ -36,4 +36,70 @@ filter(coronavirus, country %in% c("US", "Italy", "Spain"), type == "death", dat
 select(coronavirus, country, lat, long)
   # first specify the data frame, then select columns of interest 
 
+select(coronavirus, contains('y'), everything()) #`contains` shorthand to gather specified variables or text
+
+# to both filter and subset columns
+
+coronavirus_us <- filter(coronavirus, country == "US") #`<-` assignment operator, can use opt - for shortcut
+coronavirus_us2 <- select(coronavirus_us, -lat, -long, -province)
+  #clunky to continually subset objects rather than linking the functions 
+  # this is where the pipe operator `|>` comes in (used to be `%>%`) shortcut: shift-command-m
+
+# takes object we are operating on, and consider it as an `and then` 
+
+coronavirus |> 
+  filter(type == "death", country %in% c("US", "Mexico", "Canada")) |> 
+  select(country, date, cases) |> #pipe directly into ggplot
+  ggplot() + #data for plot is already selected #we add `+`, not `|>` when using ggplot
+  geom_line(mapping = aes(x = date, y = cases, color = country)) #we want diff countries w diff colors 
+
+## `mutate` function
+
+# Vaccine data ------------------------------------------------------------
+vacc <- read_csv("https://raw.githubusercontent.com/RamiKrispin/coronavirus/main/csv/covid19_vaccine.csv")
+
+max(vacc$date)
+
+vacc |> 
+  filter(date == max(date)) |> 
+  select(country_region, continent_name, people_at_least_one_dose, population) |> 
+  mutate(vaxxrate = round(people_at_least_one_dose / population, 2)) 
+
+# create new variable for total doses: take num doses administered / num people at least one dose
+
+vacc |> 
+  filter(date == max(date)) |> 
+  select(country_region, continenet_name, doses_admin, people_at_least_one_dose, population) |> 
+  mutate(totaldoses = doses_admin / people_at_least_one_dose) |>   #mutate(new variable you want name = how to get that variable)
+  ggplot() +
+  geom_histogram(mapping = aes(x = totaldoses))
+  
+# same thing but subset to 
+
+vacc |> 
+  filter(date == max(date)) |> 
+  select(country_region, continent_name, doses_admin, people_at_least_one_dose, population) |> 
+  mutate(totaldoses = doses_admin / people_at_least_one_dose) |> 
+  filter(totaldoses > 3) |> 
+  arrange(-totaldoses) #adding in `-` sorts from low to high 
+
+# In how many countries do >90% of the population have at least one dose and which five countries 
+# have the highest vaccination rates (proportion of their population given at least one dose),
+# according to this dataset?
+  
+vacc |> 
+  filter(date == max(date)) |> 
+  select(country_region, continent_name, people_at_least_one_dose, population) |> 
+  mutate(most_doses = people_at_least_one_dose / population) |> 
+  filter(most_doses > 0.9) |> #countries with > 90% w at least one dose 
+  arrange(-most_doses) |> #organize by variable we just created 
+  head(5) #only show the ones we've just arranged
+
+
+
+
+
+
+
+  
 
