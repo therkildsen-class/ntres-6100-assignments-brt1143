@@ -212,4 +212,6 @@ top5_countries <- coronavirus |>
   geom_line(mapping = aes(x = date, y = total, color = country)) +
   facet_wrap(~ country, ncol = 1)
 
+#####
+library(usethis)
 
