@@ -126,7 +126,7 @@ gg_base <- coronavirus |>
   ggplot(mapping = aes(x = date, y = total_cases)) 
 
 
-# diff plot types 
+# Plot types --------------------------------------------------------------
 
 gg_base +
   geom_line() #line 
@@ -177,7 +177,7 @@ gg_base +
   ) +
   theme_bw() +
   labs(x = "Date", y = "Total Confirmed Cases", 
-       title = str_c("Daily counts of new covid cases ", max(coronavirus$date) sep = " "), #will give us largest value df has for date
+       title = str_c("Daily counts of new covid cases", max(coronavirus$date) sep = " "), #will give us largest value df has for date
        subtitle = "Global sums")
 
 coronavirus |> 
@@ -195,7 +195,21 @@ coronavirus |>
   head(5) |> 
   pull(country) #`pull` creates vector of selected variable
 
+top5_countries <- coronavirus |>
+  filter(type == "confirmed") |>
+  group_by(country) |>
+  summarize(total = sum(cases)) |>
+  arrange(-total) |>
+  head(5) |>
+  pull(country)
 
 
+top5_countries <- coronavirus |>
+  filter(type == "confirmed", country %in% top5_countries, cases >= 0) |>
+  group_by(country) |>
+  summarize(total = sum(cases)) |>
+  ggplot() +
+  geom_line(mapping = aes(x = date, y = total, color = country)) +
+  facet_wrap(~ country, ncol = 1)
 
 
